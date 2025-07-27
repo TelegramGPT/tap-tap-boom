@@ -8,36 +8,36 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 25% 8%;
-    --foreground: 210 40% 98%;
+    --background: 340 30% 8%;
+    --foreground: 330 20% 98%;
 
-    --card: 220 25% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 340 35% 12%;
+    --card-foreground: 330 20% 98%;
 
-    --popover: 220 25% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 340 35% 12%;
+    --popover-foreground: 330 20% 98%;
 
-    --primary: 280 100% 70%;
-    --primary-foreground: 220 25% 8%;
-    --primary-glow: 280 100% 85%;
+    --primary: 330 100% 70%;
+    --primary-foreground: 340 30% 8%;
+    --primary-glow: 330 100% 85%;
 
-    --secondary: 195 100% 60%;
-    --secondary-foreground: 220 25% 8%;
-    --secondary-glow: 195 100% 75%;
+    --secondary: 315 100% 65%;
+    --secondary-foreground: 340 30% 8%;
+    --secondary-glow: 315 100% 80%;
 
-    --muted: 220 25% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 340 35% 15%;
+    --muted-foreground: 330 15% 65%;
 
-    --accent: 45 100% 60%;
-    --accent-foreground: 220 25% 8%;
-    --accent-glow: 45 100% 75%;
+    --accent: 300 100% 75%;
+    --accent-foreground: 340 30% 8%;
+    --accent-glow: 300 100% 85%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 330 20% 98%;
 
-    --border: 220 25% 20%;
-    --input: 220 25% 15%;
-    --ring: 280 100% 70%;
+    --border: 340 35% 20%;
+    --input: 340 35% 15%;
+    --ring: 330 100% 70%;
 
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
