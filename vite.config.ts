@@ -24,6 +24,16 @@ const createCommandOverlayPlugin = (): PluginOption => ({
       const { stdout, stderr } = child;
       let output = '';
 
+      server.config.logger.info('[command-overlay] lint run started');
+      server.ws.send({
+        type: 'custom',
+        event: 'command-overlay:lint-started',
+        data: {
+          command: cmd,
+          timestamp: Date.now(),
+        },
+      });
+
       const appendAndForward = (chunk: Buffer): void => {
         output += chunk.toString();
       };
@@ -36,6 +46,21 @@ const createCommandOverlayPlugin = (): PluginOption => ({
       stderr?.on('data', (chunk: Buffer) => {
         appendAndForward(chunk);
         process.stderr.write(chunk);
+      });
+
+      child.on('error', (error: unknown) => {
+        const message =
+          error instanceof Error ? error.message : 'Unknown spawn error';
+        server.config.logger.error(`[command-overlay] ${message}`);
+        server.ws.send({
+          type: 'custom',
+          event: 'command-overlay:lint-failed',
+          data: {
+            command: cmd,
+            message,
+            timestamp: Date.now(),
+          },
+        });
       });
 
       child.on('close', (code: number | null) => {
@@ -70,6 +95,15 @@ const createCommandOverlayPlugin = (): PluginOption => ({
         }
       });
     };
+
+    server.config.logger.info('[command-overlay] plugin registered');
+    server.ws.send({
+      type: 'custom',
+      event: 'command-overlay:plugin-registered',
+      data: {
+        timestamp: Date.now(),
+      },
+    });
 
     runAndOverlay();
     server.watcher.add(pattern);

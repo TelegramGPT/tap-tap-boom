@@ -33,7 +33,7 @@ const isDevtraceModule = (value: unknown): value is DevtraceModule => {
 };
 
 const bootstrap = async (): Promise<void> => {
-  if (import.meta.env.DEV) {
+  // if (import.meta.env.DEV) {
     await import('./devtools/registerCommandOverlay')
       .then(({ registerCommandOverlay }) => {
         registerCommandOverlay();
@@ -65,7 +65,7 @@ const bootstrap = async (): Promise<void> => {
         // ignore instrumentation failures during development bootstrap
       }
     }
-  }
+  // }
 
   const rootElement = document.getElementById('root');
   if (!rootElement) {

@@ -9,6 +9,17 @@ interface CommandOverlayPayload {
   readonly clean: string;
 }
 
+interface CommandOverlayLifecyclePayload {
+  readonly command: string[];
+  readonly timestamp: number;
+}
+
+interface CommandOverlayFailurePayload {
+  readonly command: string[];
+  readonly message: string;
+  readonly timestamp: number;
+}
+
 const isCommandOverlayPayload = (
   value: unknown,
 ): value is CommandOverlayPayload => {
@@ -23,6 +34,32 @@ const isCommandOverlayPayload = (
     typeof maybe.clean === 'string' &&
     (maybe.exitCode === null || typeof maybe.exitCode === 'number') &&
     isStringArray(maybe.command)
+  );
+};
+
+const isLifecyclePayload = (
+  value: unknown,
+): value is CommandOverlayLifecyclePayload => {
+  if (value === null || typeof value !== 'object') {
+    return false;
+  }
+
+  const maybe = value as Record<string, unknown>;
+  return isStringArray(maybe.command) && typeof maybe.timestamp === 'number';
+};
+
+const isFailurePayload = (
+  value: unknown,
+): value is CommandOverlayFailurePayload => {
+  if (value === null || typeof value !== 'object') {
+    return false;
+  }
+
+  const maybe = value as Record<string, unknown>;
+  return (
+    isStringArray(maybe.command) &&
+    typeof maybe.timestamp === 'number' &&
+    typeof maybe.message === 'string'
   );
 };
 
@@ -51,15 +88,48 @@ const logPayload = (payload: CommandOverlayPayload): void => {
 };
 
 export const registerCommandOverlay = (): void => {
+  console.info('[command-overlay] attempting to register listeners');
+
   if (!import.meta.hot) {
+    console.warn('[command-overlay] HMR API unavailable');
     return;
   }
+
+  console.info('[command-overlay] HMR API detected, attaching listeners');
+
+  import.meta.hot.on('command-overlay:plugin-registered', (data) => {
+    const stamp =
+      data && typeof (data as { timestamp?: number }).timestamp === 'number'
+        ? new Date((data as { timestamp: number }).timestamp).toLocaleTimeString()
+        : 'unknown time';
+    console.info(`[command-overlay] plugin registered (${stamp})`);
+  });
+
+  import.meta.hot.on('command-overlay:lint-started', (data) => {
+    if (isLifecyclePayload(data)) {
+      const when = new Date(data.timestamp).toLocaleTimeString();
+      const label = formatLabel(data.command);
+      console.info(`${label} ▶ lint started at ${when}`);
+    }
+  });
 
   import.meta.hot.on('command-overlay:lint-finished', (data) => {
     if (isCommandOverlayPayload(data)) {
       logPayload(data);
     }
   });
+
+  import.meta.hot.on('command-overlay:lint-failed', (data) => {
+    if (isFailurePayload(data)) {
+      const when = new Date(data.timestamp).toLocaleTimeString();
+      const label = formatLabel(data.command);
+      console.group(`${label} ✖ spawn failure (${when})`);
+      console.error(data.message);
+      console.groupEnd();
+    }
+  });
+
+  console.info('[command-overlay] listeners ready');
 };
 
 export default registerCommandOverlay;
