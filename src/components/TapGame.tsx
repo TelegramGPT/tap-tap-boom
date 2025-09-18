@@ -70,6 +70,8 @@ const TapGame = () => {
     { name: "Легендарная перчатка", cost: 5000, power: 100, description: "+100 к силе клика" },
   ];
 
+  console.log('upgrades' + upgrades)
+
   return (
     <div className="min-h-screen bg-background p-4 flex flex-col items-center justify-center">
       {/* Фон с эффектом */}
