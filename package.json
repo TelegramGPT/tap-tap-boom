@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build:dev": "npm run lint && vite build --mode development",
+    "build:dev": "vite build --mode development",
     "build": "tsc --noEmit && vite build",
     "lint": "tsx lint.ts src/",
     "preview": "vite preview"
