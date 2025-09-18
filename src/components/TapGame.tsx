@@ -74,59 +74,34 @@ const TapGame = () => {
 
   return (
     <div className="min-h-screen bg-background p-4 flex flex-col items-center justify-center">
-      {/* Космический фон с анимацией */}
-      <div className="fixed inset-0 bg-gradient-cosmic animate-cosmic-rotate -z-20" />
-      <div className="fixed inset-0 bg-gradient-to-br from-background/80 via-card/60 to-muted/40 -z-10" />
-      
-      {/* Плавающие частицы */}
-      <div className="fixed inset-0 -z-10">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-primary/20 rounded-full animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+      {/* Фон с эффектом */}
+      <div className="fixed inset-0 bg-gradient-to-br from-background via-card to-muted -z-10" />
       
       {/* Счетчик очков */}
-      <Card className="mb-8 p-8 bg-card/90 backdrop-blur-md border-primary/30 shadow-cosmic relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-shimmer animate-shimmer opacity-30" />
-        <div className="text-center relative z-10">
-          <h1 className="text-7xl font-black bg-gradient-rainbow bg-clip-text text-transparent mb-4 animate-float drop-shadow-2xl">
+      <Card className="mb-8 p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+        <div className="text-center">
+          <h1 className="text-6xl font-black bg-gradient-primary bg-clip-text text-transparent mb-2">
             {formatNumber(score)}
           </h1>
-          <Badge variant="secondary" className="text-xl px-6 py-3 bg-gradient-secondary shadow-glow-secondary animate-pulse-glow">
-            ⚡ Сила клика: {clickPower} ⚡
+          <Badge variant="secondary" className="text-lg px-4 py-2">
+            Сила клика: {clickPower}
           </Badge>
         </div>
       </Card>
 
       {/* Главная кнопка для тапания */}
-      <div className="relative mb-12">
+      <div className="relative mb-8">
         <Button
           variant="rainbow"
           size="mega"
           onClick={handleTap}
-          className={`relative overflow-hidden shadow-cosmic transform transition-all duration-300 hover:scale-110 ${
-            isAnimating ? 'animate-bounce-in scale-125' : 'animate-pulse-glow hover:shadow-glow'
-          }`}
+          className={`relative overflow-hidden ${isAnimating ? 'animate-bounce-in' : 'animate-pulse-glow'}`}
         >
-          <div className="absolute inset-0 bg-gradient-shimmer animate-shimmer" />
-          <span className="relative z-10 text-3xl font-black drop-shadow-lg">✨ ТАП! ✨</span>
+          <span className="relative z-10">ТАП!</span>
           
-          {/* Множественные эффекты волн при клике */}
+          {/* Эффект волн при клике */}
           {isAnimating && (
-            <>
-              <div className="absolute inset-0 rounded-full border-4 border-primary animate-ping" />
-              <div className="absolute inset-0 rounded-full border-2 border-accent animate-ping animation-delay-150" />
-              <div className="absolute inset-0 rounded-full border-1 border-secondary animate-ping animation-delay-300" />
-            </>
+            <div className="absolute inset-0 rounded-full border-4 border-primary animate-ping" />
           )}
         </Button>
         
@@ -134,46 +109,39 @@ const TapGame = () => {
         {floatingTexts.map(text => (
           <div
             key={text.id}
-            className="absolute pointer-events-none text-accent font-black text-4xl animate-bounce-in z-20 drop-shadow-2xl"
+            className="absolute pointer-events-none text-accent font-bold text-2xl animate-bounce-in z-20"
             style={{
               left: text.x,
               top: text.y,
-              animation: 'bounce-in 1s ease-out forwards, fadeOut 1s ease-out 0.5s forwards',
-              textShadow: '0 0 20px currentColor'
+              animation: 'bounce-in 1s ease-out forwards, fadeOut 1s ease-out 0.5s forwards'
             }}
           >
-            ✨+{text.value}✨
+            +{text.value}
           </div>
         ))}
       </div>
 
       {/* Магазин улучшений */}
-      <Card className="w-full max-w-2xl p-8 bg-card/90 backdrop-blur-md border-primary/30 shadow-cosmic relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-shimmer animate-shimmer opacity-20" />
-        <h2 className="text-3xl font-black mb-6 text-center bg-gradient-rainbow bg-clip-text text-transparent relative z-10 drop-shadow-lg">
-          🛒 Магазин улучшений 🛒
+      <Card className="w-full max-w-2xl p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+        <h2 className="text-2xl font-bold mb-4 text-center bg-gradient-secondary bg-clip-text text-transparent">
+          Магазин улучшений
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {upgrades.map((upgrade, index) => {
             const canAfford = score >= upgrade.cost;
             return (
-              <Card key={index} className={`p-6 transition-all duration-500 hover:scale-105 hover:rotate-1 relative overflow-hidden ${
-                canAfford ? 'border-accent shadow-glow-accent bg-gradient-to-br from-card to-accent/10' : 'border-muted bg-gradient-to-br from-card to-muted/10'
-              }`}>
-                <div className="absolute inset-0 bg-gradient-shimmer animate-shimmer opacity-10" />
-                <div className="relative z-10">
-                  <h3 className="font-black text-xl mb-2 bg-gradient-primary bg-clip-text text-transparent">{upgrade.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{upgrade.description}</p>
-                  <Button
-                    variant={canAfford ? "tap" : "outline"}
-                    size="sm"
-                    disabled={!canAfford}
-                    onClick={() => buyUpgrade(upgrade.cost, upgrade.power)}
-                    className={`w-full transition-all duration-300 ${canAfford ? 'animate-pulse-glow shadow-glow' : ''}`}
-                  >
-                    💎 {formatNumber(upgrade.cost)} очков
-                  </Button>
-                </div>
+              <Card key={index} className={`p-4 transition-all duration-300 hover:scale-105 ${canAfford ? 'border-accent' : 'border-muted'}`}>
+                <h3 className="font-bold text-lg mb-2">{upgrade.name}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{upgrade.description}</p>
+                <Button
+                  variant={canAfford ? "tap" : "outline"}
+                  size="sm"
+                  disabled={!canAfford}
+                  onClick={() => buyUpgrade(upgrade.cost, upgrade.power)}
+                  className="w-full"
+                >
+                  {formatNumber(upgrade.cost)} очков
+                </Button>
               </Card>
             );
           })}

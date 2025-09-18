@@ -71,14 +71,11 @@ export default {
 				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-accent': 'var(--gradient-accent)',
 				'gradient-rainbow': 'var(--gradient-rainbow)',
-				'gradient-cosmic': 'var(--gradient-cosmic)',
-				'gradient-shimmer': 'var(--gradient-shimmer)',
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
 				'glow-secondary': 'var(--shadow-glow-secondary)',
 				'glow-accent': 'var(--shadow-glow-accent)',
-				'cosmic': 'var(--shadow-cosmic)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -126,19 +123,6 @@ export default {
 					'0%': { backgroundPosition: '0% 50%' },
 					'50%': { backgroundPosition: '100% 50%' },
 					'100%': { backgroundPosition: '0% 50%' }
-				},
-				'shimmer': {
-					'0%': { transform: 'translateX(-100%)' },
-					'100%': { transform: 'translateX(100%)' }
-				},
-				'float': {
-					'0%, 100%': { transform: 'translateY(0px)' },
-					'50%': { transform: 'translateY(-10px)' }
-				},
-				'cosmic-rotate': {
-					'0%': { transform: 'rotate(0deg) scale(1)' },
-					'50%': { transform: 'rotate(180deg) scale(1.1)' },
-					'100%': { transform: 'rotate(360deg) scale(1)' }
 				}
 			},
 			animation: {
@@ -147,10 +131,7 @@ export default {
 				'pulse-glow': 'pulse-glow 2s infinite',
 				'bounce-in': 'bounce-in 0.3s ease-out',
 				'shake': 'shake 0.5s ease-in-out',
-				'rainbow': 'rainbow 3s ease infinite',
-				'shimmer': 'shimmer 2s ease-in-out infinite',
-				'float': 'float 3s ease-in-out infinite',
-				'cosmic-rotate': 'cosmic-rotate 4s ease-in-out infinite'
+				'rainbow': 'rainbow 3s ease infinite'
 			}
 		}
 	},
