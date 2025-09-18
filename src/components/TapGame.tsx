@@ -68,6 +68,12 @@ const TapGame = () => {
     { name: "Железный кулак", cost: 200, power: 5, description: "+5 к силе клика" },
     { name: "Молот силы", cost: 1000, power: 25, description: "+25 к силе клика" },
     { name: "Легендарная перчатка", cost: 5000, power: 100, description: "+100 к силе клика" },
+    { name: "Киберулучшение", cost: 15000, power: 250, description: "+250 к силе клика" },
+    { name: "Плазменный усилитель", cost: 50000, power: 750, description: "+750 к силе клика" },
+    { name: "Квантовый щелчок", cost: 150000, power: 2000, description: "+2000 к силе клика" },
+    { name: "Мультивселенная", cost: 500000, power: 5000, description: "+5000 к силе клика" },
+    { name: "Бесконечная сила", cost: 1500000, power: 12500, description: "+12500 к силе клика" },
+    { name: "Божественное касание", cost: 5000000, power: 30000, description: "+30000 к силе клика" },
   ];
 
   console.log('upgrades' + upgrades)
