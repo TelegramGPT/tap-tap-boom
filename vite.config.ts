@@ -83,8 +83,8 @@ export default defineConfig(({ mode }) => {
 
   const pluginEntries: Array<PluginOption | false> = [
     react(),
-    isDevLikeMode && createCommandOverlayPlugin(),
-    isDevLikeMode && componentTagger(),
+    createCommandOverlayPlugin(),
+    componentTagger(),
   ];
 
   const plugins = pluginEntries.filter(
