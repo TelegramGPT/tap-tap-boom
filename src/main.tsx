@@ -34,6 +34,12 @@ const isDevtraceModule = (value: unknown): value is DevtraceModule => {
 
 const bootstrap = async (): Promise<void> => {
   if (import.meta.env.DEV) {
+    await import('./devtools/registerCommandOverlay')
+      .then(({ registerCommandOverlay }) => {
+        registerCommandOverlay();
+      })
+      .catch(() => undefined);
+
     const devtraceImport: unknown = await import('@ton-ai-core/devtrace').catch(
       () => null,
     );

@@ -39,8 +39,22 @@ const createCommandOverlayPlugin = (): PluginOption => ({
       });
 
       child.on('close', (code: number | null) => {
-        if (code && code !== 0) {
-          const clean = stripAnsi(output);
+        const clean = stripAnsi(output);
+        const success = !code;
+
+        server.ws.send({
+          type: 'custom',
+          event: 'command-overlay:lint-finished',
+          data: {
+            command: cmd,
+            exitCode: code,
+            success,
+            output,
+            clean,
+          },
+        });
+
+        if (!success) {
           server.config.logger.error(clean);
           server.ws.send({
             type: 'error',
