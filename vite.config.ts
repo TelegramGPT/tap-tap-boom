@@ -18,8 +18,9 @@ const createCommandOverlayPlugin = (): PluginOption => ({
   configureServer(server: ViteDevServer): void {
     const pattern = 'src/**/*';
     const stripAnsi = (text: string): string => text.replace(ansiPattern, '');
+    const lintEntry = path.resolve(__dirname, './lint.ts');
     const runAndOverlay = (): void => {
-      const cmd = ['npm', 'run', 'lint'];
+      const cmd = ['npx', 'tsx', lintEntry, 'src/'];
       const child = spawn(cmd[0], cmd.slice(1), { stdio: ['ignore', 'pipe', 'pipe'] });
       const { stdout, stderr } = child;
       let output = '';
