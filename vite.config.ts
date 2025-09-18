@@ -81,8 +81,8 @@ const createCommandOverlayPlugin = (): PluginOption => ({
 export default defineConfig(({ mode }) => {
   const pluginEntries: Array<PluginOption | false> = [
     react(),
-    mode === 'development' && componentTagger(),
     mode === 'development' && createCommandOverlayPlugin(),
+    mode === 'development' && componentTagger(),
   ];
 
   const plugins = pluginEntries.filter(
