@@ -33,13 +33,15 @@ const isDevtraceModule = (value: unknown): value is DevtraceModule => {
 };
 
 const bootstrap = async (): Promise<void> => {
-  // if (import.meta.env.DEV) {
+  if (import.meta.hot) {
     await import('./devtools/registerCommandOverlay')
       .then(({ registerCommandOverlay }) => {
         registerCommandOverlay();
       })
       .catch(() => undefined);
+  }
 
+  if (import.meta.env.DEV) {
     const devtraceImport: unknown = await import('@ton-ai-core/devtrace').catch(
       () => null,
     );
@@ -65,7 +67,7 @@ const bootstrap = async (): Promise<void> => {
         // ignore instrumentation failures during development bootstrap
       }
     }
-  // }
+  }
 
   const rootElement = document.getElementById('root');
   if (!rootElement) {
